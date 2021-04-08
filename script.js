@@ -6,13 +6,25 @@ const button = document.getElementById('button')
 
 async function selectMediaStream(){
     try{
-        something
+        const mediaStream = await navigator.mediaDevices.getDisplayMedia();
+        videoElement.srcObject = mediaStream;
+        videoElement.onloadedmetadata =()=>{
+            videoElement.play();
+        }
+        
     }
     catch(error){
         console.log('Whoops, error here:', error)
     }
 }
 
+button.addEventListener('click', async ()=>{
+    //Disable button
+    button.disabled = true;
+    //Start PiP
+    await videoElement.requestPictureInPicture();
+    button.disabled = false;
+})
 
 // On load
 selectMediaStream();
